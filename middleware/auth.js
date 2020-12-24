@@ -12,7 +12,6 @@ module.exports = function(req, res, next) {
   else{
     // remove Bearer from header
     token = token.split("Bearer ")[1];
-    console.log(token);
   } 
 
 
