@@ -10,6 +10,11 @@ const { check, validationResult } = require('express-validator');
 router.get('/', auth, async (req, res) => { 
   try {
     const user = await User.findById(req.user.id).select('-password');
+
+    if(user == null){
+      return res.status(404).json({ msg: 'User Not Longer Exist'})
+    }
+
     res.json(user);
   } catch (err) {
     console.error(err.message);
@@ -17,7 +22,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-router.post('/',
+router.post('/login',
 [
   check('email', 'Please use a valid email').isEmail(),
   check('password', 'Password is required').exists(),
