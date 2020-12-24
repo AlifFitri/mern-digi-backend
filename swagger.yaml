@@ -1,0 +1,133 @@
+openapi: 3.0.1
+info:
+  title: 'Simple-MERN-Login'
+  description: This is a API documentation for simple MERN project that can register, login and get all registered user.
+  version: 1.0.0
+externalDocs:
+  description: See in Github
+  url: https://github.com/AlifFitri/mern-digi-backend
+servers:
+- url: 
+  description: Live Server
+- url: http://localhost:5000
+  description: Local Server
+tags:
+- name: user
+  description: All API for user
+paths:
+  /api/users/:
+    post:
+      tags:
+      - user
+      summary: Register User
+      operationId: registerUser
+      requestBody:
+        description: new user object
+        content:
+         application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      responses:
+        201:
+          description: Will return token, Front End application need save this token
+            in local storage
+          content: {}
+        400:
+          description: Request body validation error. Please enter correct input.
+            Refer error message
+          content: {}
+        500:
+          description: Server Error
+          content: {}
+      x-codegen-request-body-name: body
+  /api/auth/login:
+    post:
+      tags:
+      - user
+      summary: Login account
+      operationId: loginUser
+      requestBody:
+        description: new user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        200:
+          description: Will return token, Front End application need save this token
+            in local storage
+          content: {}
+        400:
+          description: Request body validation error. Refer error message
+          content: {}
+        500:
+          description: Server Error
+          content: {}
+      x-codegen-request-body-name: body
+  /api/auth/:
+    get:
+      tags:
+      - user
+      summary: Authenticate current user
+      description: This API will be call from application on every page to validate
+        current user
+      operationId: authenticateUser
+      responses:
+        200:
+          description: Will return current user's details
+          content: {}
+        404:
+          description: User no longer exist in Database
+          content: {}
+        500:
+          description: Server Error
+          content: {}
+      security:
+        - BearerAuth: []
+  /api/users/retrieve-all:
+    get:
+      tags:
+      - user
+      summary: Retrieve all registered users
+      description: This API will be call after user navigate to Application dashboard
+      operationId: retrieveAllUser
+      responses:
+        200:
+          description: Return list of registered users
+          content: {}
+        404:
+          description: No User Data
+          content: {}
+        500:
+          description: Server Error
+          content: {}
+      security:
+        - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: 'Bearer'
+  schemas:
+    Register:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      xml:
+        name: User
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      xml:
+        name: User
