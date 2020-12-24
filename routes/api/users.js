@@ -81,16 +81,16 @@ router.get("/retrieve-all", auth, async (req, res) => {
     const users = await User.find();
     if (!users) return res.status(404).send("No User Data");
 
-    let responses = [];
+    const responses = [];
 
     users.forEach((user) => {
 
-      let resp = {
-        _id: user._id,
+      const newUser = {
+        id: user.id,
         name: user.name,
       };
 
-      responses.push(resp);
+      responses.push(newUser);
     });
 
     res.status(200).send(responses);
