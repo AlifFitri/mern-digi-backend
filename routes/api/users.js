@@ -88,6 +88,7 @@ router.get("/retrieve-all", auth, async (req, res) => {
       const newUser = {
         id: user.id,
         name: user.name,
+        email: user.email
       };
 
       responses.push(newUser);
